@@ -1,0 +1,471 @@
+swagger: "2.0"
+info:
+  description: "API specs for Delilah Resto business"
+  version: "1.0.0"
+  title: "Delilah Resto"
+  contact:
+    email: "alexx17.villa@gmail.com"
+host: "localhost"
+
+
+tags:
+- name: "Users"
+  description: "endpoints to manipulate users"
+- name: "Products"
+  description: "endpoints to manipulate products"
+- name: "Orders"
+  description: "endpoints to manipulate orders"
+
+  
+schemes:
+- "https"
+- "http"
+
+paths:
+  /users:
+    get:
+      tags:
+      - "Users"
+      summary: "Get all users from the database"
+      description: "Only Admins can get this information"
+      operationId: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "authorization"
+        description: "Authentication Token"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "List of all users from the database"
+        "403":
+          description: "Unauthorized"  
+    
+    post:
+      tags:
+      - "Users"
+      summary: "Insert a user in the database"
+      description: "Use this endpoint to register a new User"
+      operationId: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/insertUserRequest"
+      responses:
+        "200":
+          description: "List of all users from the database"
+        "403":
+          description: "Unauthorized" 
+    
+  /users/login:
+    post:
+      tags:
+      - "Users"
+      summary: "Get a token for auth"
+      description: "You need this token to login as a User"
+      operationId: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Provide user credentials"
+        required: true
+        schema:
+          $ref: "#/definitions/loginRequest"
+      responses:
+        "200":
+          description: "Auth Token"
+        "403":
+          description: "Unauthorized"
+          
+  
+  
+  
+  
+  
+  
+  
+  /products:
+    get:
+      tags:
+      - "Products"
+      summary: "Get all products from the database"
+      description: "Use this endpoint to show available products"
+      operationId: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "List of all products from the database"
+        "403":
+          description: "Unauthorized"  
+    
+    post:
+      tags:
+      - "Products"
+      summary: "Insert a user in the database"
+      description: "Use this endpoint to insert a new Product. Only Admins can insert a Product"
+      operationId: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "authorization"
+        description: "Authentication Token"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/insertProductRequest"
+      responses:
+        "201":
+          description: "Information of the product inserted"
+        "403":
+          description: "Unauthorized"
+          
+  /products/{productId}:
+    put:
+      tags:
+      - "Products"
+      summary: "Update information about a product"
+      description: "Use to update information about a product. Only Admins can do an update"
+      operationId: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: path
+        name: productId
+        required: true
+        type: integer
+        description: productId to update
+      - in: "header"
+        name: "authorization"
+        description: "Authentication Token"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Put at least one property to update"
+        required: true
+        schema:
+          $ref: "#/definitions/updateProductRequest"
+      responses:
+        "202":
+          description: "Successful response"
+        "403":
+          description: "Unauthorized"
+          
+    delete:
+      tags:
+      - "Products"
+      summary: "Delete a Product from the database"
+      description: "Use to delete a product from the database. Only Admins can delete"
+      operationId: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: path
+        name: productId
+        required: true
+        type: integer
+        description: productId to delete
+      - in: "header"
+        name: "authorization"
+        description: "Authentication Token"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Successful response"
+        "403":
+          description: "Unauthorized"
+          
+          
+    
+    
+    
+    
+    
+    
+  /orders:
+    get:
+      tags:
+        - "Orders"
+      summary: "Returns orders from the database"
+      description: "Returns all the orders from the database"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "header"
+          name: "authorization"
+          description: "Authentication Token"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Successful response"
+      
+    post:
+      tags:
+        - "Orders"
+      summary: "Add a new order to the database"
+      description: ""
+      operationId: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/orderRequest"
+      responses:
+        "201":
+          description: "Created"
+        "400":
+          description: "User not found"
+        "405":
+          description: "Missing Arguments"      
+          
+  /orders/{orderId}:
+    put:
+      tags:
+        - "Orders"
+      summary: "Update the status of an existing order"
+      description: "Only Admins can update the status of an order "
+      operationId: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "orderId"
+          required: true
+          type: "integer"
+        - in: "header"
+          name: "authorization"
+          description: "Authentication Token"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/orderUpdateRequest"
+      responses:
+        202:
+          description: "Acepted"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Order not found"
+        405:
+          description: "Invalid status suplied"
+          
+    delete:
+      tags:
+        - "Orders"
+      summary: "Deletes an order"
+      description: ""
+      operationId: "deleteOrder"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "orderId"
+          in: "path"
+          description: "Order id to delete"
+          required: true
+          type: "integer"
+        - in: "header"
+          name: "authorization"
+          description: "Authentication Token"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Deleted"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Order not found"
+  
+  
+  
+  
+  
+  
+  
+
+definitions:
+  loginRequest:
+    type: "object"
+    required:
+    - "username"
+    - "password"
+    properties:
+      username:
+        type: "string"
+      password:
+        type: "string"
+  
+  insertUserRequest:
+    type: "object"
+    required:
+    - "username"
+    - "password"
+    - "firstname"
+    - "lastname"
+    - "address"
+    - "email"
+    - "phone_number"
+    - "is_admin"
+    properties:
+      username:
+        type: "string"
+      password:
+        type: "string"
+      firstname:
+        type: "string"
+      lastname:
+        type: "string"
+      address:
+        type: "string"
+      email:
+        type: "string"
+      phone_number:
+        type: "string"
+      is_admin:
+        type: "integer"
+        enum:
+          - 0
+          - 1
+  
+  insertProductRequest:    
+    type: "object"
+    required:
+    - "product_name"
+    - "product_price"
+    properties:
+      product_name:
+        type: "string"
+      product_price:
+        type: "number"
+      product_photo:
+        type: "array"
+        items:
+          type: "string"
+        
+  updateProductRequest:    
+    type: "object"
+    properties:
+      product_name:
+        type: "string"
+      product_price:
+        type: "string"
+      product_photo:
+        type: "array"
+        items:
+          type: "string"
+        
+        
+  orderRequest:
+    type: "object"
+    properties:
+      order_id:
+        type: "number"
+      order_status:
+        type: "string"
+        enum:
+          - "new"
+          - "confirmed"
+          - "preparing"
+          - "delivering"
+          - "delivered"
+      order_time:
+        type: "string"
+        example: "17:39:20"
+      order_description:
+        type: "string"
+        example: "1xDoubleBurg 2xFrenchFr"
+      order_amount:
+        type: "number"
+      payment_method:
+        type: "string"
+        description: "payment method chosen by the user"
+        enum:
+          - "cash"
+          - "credit card"
+      user_id:
+        type: "number"
+      username:
+        type: "string"
+      firstname:
+        type: "string"
+      lastname:
+        type: "string"
+      address:
+        type: "string"
+      email:
+        type: "string"
+      phone_number:
+        type: "string"
+      products:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            product_quantity:
+              type: "number"
+            product_name:
+              type: "string"
+            product_price:
+              type: "number"
+            product_photo:
+              type: "array"
+              items:
+                type: "string"
+                
+                
+  orderUpdateRequest:
+    type: "object"
+    required:
+    - "status"
+    properties:
+      status:
+        type: "string"
+        enum:
+          - "new"
+          - "confirmed"
+          - "preparing"
+          - "delivering"
+          - "delivered"
