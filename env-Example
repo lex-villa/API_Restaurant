@@ -1,0 +1,6 @@
+ACCESS_TOKEN_SECRET=//Put here a sign for JWT to create a token, type=string or int
+DB_HOST=//Put here your credentials, type=string
+DB_NAME=//Put here your credentials, type=string
+DB_USER=//Put here your credentials, type=string
+DB_PASSWORD=//Put here your credentials, type=string
+DB_DIALECT=//Put here your credentials, type=string
