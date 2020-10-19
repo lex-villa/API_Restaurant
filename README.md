@@ -21,4 +21,4 @@ $ npm install
 ```
 $ npm start
 ```
-- To know how use the endpoints check the docs in swagger [here]()
+- To know how use the endpoints check the docs in swagger [here](https://github.com/lex-villa/API_Restaurant/blob/main/Docs_DelilahResto.yaml)
